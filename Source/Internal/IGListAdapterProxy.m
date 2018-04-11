@@ -30,6 +30,9 @@ static BOOL isInterceptedSelector(SEL sel) {
             sel == @selector(collectionView:didDeselectItemAtIndexPath:) ||
             sel == @selector(collectionView:didHighlightItemAtIndexPath:) ||
             sel == @selector(collectionView:didUnhighlightItemAtIndexPath:) ||
+            sel == @selector(collectionView:shouldShowMenuForItemAtIndexPath:) ||
+            sel == @selector(collectionView:canPerformAction:forItemAtIndexPath:withSender:) ||
+            sel == @selector(collectionView:performAction:forItemAtIndexPath:withSender:) ||
             // UICollectionViewDelegateFlowLayout
             sel == @selector(collectionView:layout:sizeForItemAtIndexPath:) ||
             sel == @selector(collectionView:layout:insetForSectionAtIndex:) ||
