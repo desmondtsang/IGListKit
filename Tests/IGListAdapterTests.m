@@ -1312,6 +1312,45 @@
     XCTAssertFalse(s2.wasUnhighlighted);
 }
 
+- (void)test_whenMenuShouldAppear_thatCollectionViewDelegateReceivesMethod {
+    self.dataSource.objects = @[@0, @1, @2];
+    [self.adapter reloadDataWithCompletion:nil];
+    
+    id mockDelegate = [OCMockObject mockForProtocol:@protocol(UICollectionViewDelegate)];
+    self.adapter.collectionViewDelegate = mockDelegate;
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:0];
+    
+    [[mockDelegate expect] collectionView:self.collectionView shouldShowMenuForItemAtIndexPath:indexPath];
+    [self.adapter collectionView:self.collectionView shouldShowMenuForItemAtIndexPath:indexPath];
+    [mockDelegate verify];
+}
+
+- (void)test_whenMenuShouldPerformAction_thatCollectionViewDelegateReceivesMethod {
+    self.dataSource.objects = @[@0, @1, @2];
+    [self.adapter reloadDataWithCompletion:nil];
+    
+    id mockDelegate = [OCMockObject mockForProtocol:@protocol(UICollectionViewDelegate)];
+    self.adapter.collectionViewDelegate = mockDelegate;
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:0];
+    
+    [[mockDelegate expect] collectionView:self.collectionView canPerformAction:@selector(compare:) forItemAtIndexPath:indexPath withSender:self.collectionView];
+    [self.adapter collectionView:self.collectionView canPerformAction:@selector(compare:) forItemAtIndexPath:indexPath withSender:self.collectionView];
+    [mockDelegate verify];
+}
+
+- (void)test_whenMenuPerformsAction_thatCollectionViewDelegateReceivesMethod {
+    self.dataSource.objects = @[@0, @1, @2];
+    [self.adapter reloadDataWithCompletion:nil];
+    
+    id mockDelegate = [OCMockObject mockForProtocol:@protocol(UICollectionViewDelegate)];
+    self.adapter.collectionViewDelegate = mockDelegate;
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:0];
+    
+    [[mockDelegate expect] collectionView:self.collectionView performAction:@selector(compare:) forItemAtIndexPath:indexPath withSender:self.collectionView];
+    [self.adapter collectionView:self.collectionView performAction:@selector(compare:) forItemAtIndexPath:indexPath withSender:self.collectionView];
+    [mockDelegate verify];
+}
+
 - (void)test_whenDataSourceDoesntHandleObject_thatObjectIsDropped {
     // IGListTestAdapterDataSource does not handle NSStrings
     self.dataSource.objects = @[@1, @"dog", @2];

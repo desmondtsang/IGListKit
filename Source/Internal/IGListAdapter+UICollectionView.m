@@ -226,6 +226,34 @@
     [sectionController didUnhighlightItemAtIndex:indexPath.item];
 }
 
+- (BOOL)collectionView:(UICollectionView *)collectionView shouldShowMenuForItemAtIndexPath:(NSIndexPath *)indexPath {
+    // forward this method to the delegate b/c this implementation will steal the message from the proxy
+    id<UICollectionViewDelegate> collectionViewDelegate = self.collectionViewDelegate;
+    if ([collectionViewDelegate respondsToSelector:@selector(collectionView:shouldShowMenuForItemAtIndexPath:)]) {
+       return [collectionViewDelegate collectionView:collectionView shouldShowMenuForItemAtIndexPath:indexPath];
+    } else {
+        return false;
+    }
+}
+
+- (BOOL)collectionView:(UICollectionView *)collectionView canPerformAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
+    // forward this method to the delegate b/c this implementation will steal the message from the proxy
+    id<UICollectionViewDelegate> collectionViewDelegate = self.collectionViewDelegate;
+    if ([collectionViewDelegate respondsToSelector:@selector(collectionView:canPerformAction:forItemAtIndexPath:withSender:)]) {
+        return [collectionViewDelegate collectionView:collectionView canPerformAction:action forItemAtIndexPath:indexPath withSender:sender];
+    } else {
+        return false;
+    }
+}
+
+- (void)collectionView:(UICollectionView *)collectionView performAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
+    // forward this method to the delegate b/c this implementation will steal the message from the proxy
+    id<UICollectionViewDelegate> collectionViewDelegate = self.collectionViewDelegate;
+    if ([collectionViewDelegate respondsToSelector:@selector(collectionView:performAction:forItemAtIndexPath:withSender:)]) {
+        [collectionViewDelegate collectionView:collectionView performAction:action forItemAtIndexPath:indexPath withSender:sender];
+    }
+}
+
 #pragma mark - UICollectionViewDelegateFlowLayout
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
